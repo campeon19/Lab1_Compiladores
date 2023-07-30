@@ -29,10 +29,25 @@ class TypeCheckerListener(YAPLGrammarListener):
         self.symbol_table = symbol_table
 
     def get_expr_type(self, expr_ctx):
-        if expr_ctx.TYPE == 'INT':
+        print(expr_ctx.getText())
+        integer = re.compile(r'^[0-9]+$')
+        string = re.compile(r'^"[a-zA-Z0-9]+"$')
+        if expr_ctx.getText() == 'true' or expr_ctx.getText() == 'false':
+            expr_ctx.TYPE = 'BOOL'
+            return 'BOOL'
+        elif string.match(expr_ctx.getText()):
+            expr_ctx.TYPE = 'STRING'
+            return 'STRING'
+        elif integer.match(expr_ctx.getText()):
+            expr_ctx.TYPE = 'INT'
             return 'INT'
+        elif expr_ctx.TYPE == 'INT':
+            return 'INT'
+        elif expr_ctx.TYPE == 'STRING':
+            return 'STRING'
         elif expr_ctx.ID():
             id = expr_ctx.ID()[0].getText()
+            # print(id)
             integer = re.compile(r'^[0-9]+$')
             # string in ""
             string = re.compile(r'^"[a-zA-Z0-9]+"$')

@@ -12,6 +12,10 @@ class Main inherits IO {
    };
 
    object(): BOOL{
-      e < f
+      e < "hola"
+   };
+
+   object(): BOOL{
+      e < 1
    };
 };
